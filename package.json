@@ -2,5 +2,10 @@
   "name": "learning-graphql",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.1.0",
+    "graphql": "^14.0.2",
+    "nodemon": "^1.18.6"
+  }
 }
