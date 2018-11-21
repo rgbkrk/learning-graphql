@@ -33,8 +33,6 @@ const typeDefs = gql`
     created: DateTime!
   }
 
-  # Left off ~ here, doing many-to-many on page 96
-
   input PostPhotoInput {
     name: String!
     category: PhotoCategory = PORTRAIT
@@ -51,9 +49,6 @@ const typeDefs = gql`
   }
 
 `;
-
-// HACK: variable we increment to make unique ids
-var _id = 4;
 
 var users = [
   { githubLogin: "mHattrup", name: "Mike Hattrup" },
@@ -86,6 +81,13 @@ var photos = [
     created: "2018-04-15T19:09:57.308Z"
   }
 ];
+
+// HACK: variable we increment to make unique ids in the postPhoto mutation
+var _id = photos
+  .map(photo => parseInt(photo.id))
+  // Find the largest id in our photos collection and increment by 1
+  .reduce((prev, current) => (current > prev ? current + 1 : prev), 0)
+  .toString();
 
 var tags = [
   { photoID: "1", userID: "gPlake" },
@@ -120,8 +122,8 @@ const resolvers = {
     taggedUsers: parent =>
       tags
         // Returns an array of tags that only contain the current photo
-
         .filter(tag => tag.photoID === parent.id)
+
         // Converts the array of tags into an array of userIDs
         .map(tag => tag.userID)
 
