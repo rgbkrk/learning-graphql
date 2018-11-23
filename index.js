@@ -1,5 +1,9 @@
 // @format
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, gql } = require("apollo-server-express");
+
+const express = require("express");
+const expressPlayground = require("graphql-playground-middleware-express")
+  .default;
 
 const { GraphQLScalarType } = require("graphql");
 
@@ -154,11 +158,17 @@ const resolvers = {
   })
 };
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-});
+var app = express();
 
-server
-  .listen()
-  .then(({ url }) => console.log(`GraphQL Service running on ${url}`));
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.applyMiddleware({ app });
+
+app.get("/", (req, res) => res.end("Colton is a cool kid"));
+app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
+
+app.listen({ port: 4000 }, () => {
+  console.log(
+    `GraphQL Server running @ http://localhost:4000${server.graphqlPath}`
+  );
+});
