@@ -1,5 +1,7 @@
 const { GraphQLScalarType } = require("graphql");
 
+const { githubAuth } = require("./auth");
+
 var users = [
   { githubLogin: "mHattrup", name: "Mike Hattrup" },
   { githubLogin: "gPlake", name: "Glen Plake" },
@@ -64,7 +66,9 @@ const resolvers = {
       db
         .collection("users")
         .find()
-        .toArray()
+        .toArray(),
+
+    me: (parent, args, { currentUser }) => currentUser
   },
 
   Mutation: {
@@ -77,7 +81,8 @@ const resolvers = {
       photos.push(newPhoto);
 
       return newPhoto;
-    }
+    },
+    githubAuth
   },
   Photo: {
     url: parent => `http://yoursite.com/img/${parent.id}.jpg`,

@@ -38,6 +38,7 @@ type Query {
   totalUsers: Int!
   allUsers: [User!]!
   allPhotos: [Photo!]!
+  me: User
 }
 
 type AuthPayload {
