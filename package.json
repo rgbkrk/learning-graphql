@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -e js,json,graphql"
+    "start": "nodemon -e js,json,graphql",
+    "debug": "npm run start -- -x node --inspect-brk index.js"
   },
   "dependencies": {
     "apollo-server": "^2.1.0",
