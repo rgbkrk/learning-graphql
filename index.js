@@ -39,12 +39,19 @@ async function start() {
     let url = `https://github.com/login/oauth/authorize?client_id=${
       process.env.GITHUB_CLIENT_ID
     }&scope=user`;
-    res.end(`<a href="${url}">Sign In with Github</a>`);
+    res.end(`
+      <h1>Photo Share</h1>
+
+      <ul>
+        <li><a href="${url}">Sign In with Github</a></li>
+        <li><a href="/playground">Playground</a></li>
+      </ul>
+      `);
   });
 
   app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
 
-  app.listen({ port: 4000 }, () => {
+  app.listen({ port: 3000 }, () => {
     console.log(
       `GraphQL Server running @ http://localhost:4000${server.graphqlPath}`
     );
