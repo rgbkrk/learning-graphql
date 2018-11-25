@@ -35,7 +35,13 @@ async function start() {
 
   server.applyMiddleware({ app });
 
-  app.get("/", (req, res) => res.end("Colton is a cool kid"));
+  app.get("/", (req, res) => {
+    let url = `https://github.com/login/oauth/authorize?client_id=${
+      process.env.GITHUB_CLIENT_ID
+    }&scope=user`;
+    res.end(`<a href="${url}">Sign In with Github</a>`);
+  });
+
   app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
 
   app.listen({ port: 4000 }, () => {
